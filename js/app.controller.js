@@ -1,5 +1,6 @@
 import { locService } from './services/loc.service.js';
 import { mapService } from './services/map.service.js';
+import { weatherService } from './services/weather.service.js';
 
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
@@ -59,4 +60,37 @@ function renderLocTable() {
       });
     })
     .catch((err) => console.log('Failed to render locations table'));
+}
+
+// var coords={
+//     lat:32.0749831,
+//     lng:34.9120554
+// };
+
+// onGetWeather(coords);
+
+function onGetWeather(coords) {
+  weatherService.getWeather(coords).then((weather) => renderWeather(weather));
+}
+
+function renderWeather(currWeather) {
+  // var currWeather = {
+  // city: weather.data.name,
+  // temp: weather.data.main.temp,
+  // tempMin:weather.data.main.temp_min,
+  // tempMax: weather.data.main.temp_max,
+  // weatherDesc:weather.data.weather[0].description,
+  // windSpeed: weather.data.wind.speed,
+  // icon: `http://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png`
+  var elWeather = document.querySelector('.weather-container');
+  const strHtmls = `
+        <p>City: ${currWeather.city}</p>
+        <p class="weather-desc"><img class="weather-icon" src="${currWeather.icon}"/></p>
+        <p> ${currWeather.weatherDesc}</p>
+        <p>Current Temp ${currWeather.temp}°C</p>
+        <p>Temperature: from ${currWeather.tempMin}°C to ${currWeather.tempMax}°C</p>
+        <p>Wind: ${currWeather.windSpeed}m/s</p>
+        `;
+
+  elWeather.innerHTML = strHtmls;
 }
