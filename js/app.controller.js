@@ -73,8 +73,10 @@ function renderLocTable() {
   let strHTML = locs.map((loc) => {
     return `<li>
           <p>${loc.name}</p>
+          <div class="buttons btn">
           <button onclick="onDeleteLoc('${loc.id}')">🗑️</button>
           <button onclick="onChangeLoc('${loc.id}')">📌</button>
+          </div>
           </li>`;
   });
   document.querySelector('.loc-container').innerHTML = strHTML.join('');
