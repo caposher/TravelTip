@@ -4,11 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TravelTip</title>
+    <link rel="stylesheet" href="./css/style.css">
+
   </head>
 
   <body>
     <header>
-      <h1>TravelTip</h1>
+      <h1 class="header">TravelTip</h1>
       <div class="search-container">
         <input type="text" class="input-search" placeholder="Enter Location" />
         <button onclick="onGetLocs()" class="search-btn btn">Go</button>
@@ -21,13 +23,15 @@
       <button onclick="onGetLink()" class="copy-link-btn btn">Copy Link</button>
     </section>
     <main class="main-container">
-      <aside class="info-container">
-        <div class="weather-container"></div>
-        <div><ul class="loc-container"></ul></div>
-      </aside>
+        <aside class="info-container">
+            <div class="weather-container"></div>
+            <div><ul class="loc-container"></ul></div>
+          </aside>
       <section class="map-container">
-        <div id="map" style="width: 50%; height: 400px"></div>
+        <div id="map" style="height: 400px;"></div>
+        <!-- style="width: 50%; height: 400px" -->
       </section>
+     
     </main>
 
     <script src="js/lib/axios.js"></script>
