@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelTip</title>
+</head>
+
+<body>
+    <header>
+        <h1>TravelTip</h1>
+        <div class="search-container">
+            <input type="text" class="input-search" placeholder="Enter Location" />
+            <button onclick="onSearch()" class="search-btn btn">Go</button>
+            <button onclick="onMyLocation()" class="my-loc-btn btn">My Location</button>
+        </div>
+    </header>
+    <section class="curr-loc-container">
+        <h1>Location: <span class="curr-loc"></span></h1>
+        <button class="copy-loc-btn btn">Copy Location</button>
+    </section>
+    <main class="main-container">
+        <section class="map-container">
+            <div id="map" style="width: 50%; height: 400px;"></div>
+        </section>
+        <aside class="info-container">
+            <div class="weather-container">
+                gfgfgfgfgfgf
+            </div>
+            <div class="loc-container">
+                gfgfgfgfgfgfgff
+            </div>
+        </aside>
+    </main>
+
+
+
+
+
+    <!-- <h1>TravelTip Starter</h1> -->
+    <!-- <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
+    <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
+    <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
+    <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
+
+    <p>You are at: <span class="user-pos"></span></p>
+    <p>Locations: <span class="locs"></span></p> -->
+
+
+    <script type="module" src="js/app.controller.js"></script>
+</body>
+
+</html>
