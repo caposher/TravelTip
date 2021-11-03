@@ -17,17 +17,17 @@
     </header>
     <section class="curr-loc-container">
       <h1>Location: <span class="curr-loc"></span></h1>
-      <button class="copy-loc-btn btn">Copy Location</button>
-      <p></p>
+      <input type="text" class="link-url"></p>
+      <button onclick="onGetLink()" class="copy-link-btn btn">Copy Link</button>
     </section>
     <main class="main-container">
-      <section class="map-container">
-        <div id="map" style="width: 50%; height: 400px"></div>
-      </section>
       <aside class="info-container">
         <div class="weather-container"></div>
         <div><ul class="loc-container"></ul></div>
       </aside>
+      <section class="map-container">
+        <div id="map" style="width: 50%; height: 400px"></div>
+      </section>
     </main>
 
     <script src="js/lib/axios.js"></script>

@@ -3,25 +3,30 @@ import { mapService } from './services/map.service.js';
 import { weatherService } from './services/weather.service.js';
 
 window.onload = onInit;
-window.onAddMarker = onAddMarker;
+// window.onAddMarker = onAddMarker;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onDeleteLoc = onDeleteLoc;
 window.onChangeLoc = onChangeLoc;
+window.onGetLink = onGetLink;
 
 function onInit() {
   mapService
     .initMap()
     .then(() => {
       console.log('Map is ready');
+      const coords = _encodeUrl();
+      if (coords.lat && coords.lng) {
+        mapService.panTo(coords.lat, coords.lng);
+      }
     })
     .catch(() => console.log('Error: cannot init map'));
 }
 
-function onAddMarker() {
-  console.log('Adding a marker');
-  mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
-}
+// function onAddMarker() {
+//   console.log('Adding a marker');
+//   mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
+// }
 
 function onGetLocs() {
   const loc = document.querySelector('.input-search').value;
@@ -37,7 +42,6 @@ function onGetUserPos() {
   mapService
     .getPosition()
     .then((pos) => {
-      console.log('User position is:', pos.coords);
       mapService.panTo(pos.coords.latitude, pos.coords.longitude);
     })
     .catch((err) => {
@@ -61,10 +65,20 @@ function onChangeLoc(id) {
   renderInfo(loc);
 }
 
+function onGetLink() {
+  const elLink = document.querySelector('.link-url');
+  elLink.select();
+  navigator.clipboard.writeText(elLink.value);
+}
+
 function renderInfo(loc) {
+  let url = `https://caposher.github.io/TravelTip/index.html?lat=${loc.lat}&lng=${loc.lng}`;
+  document.querySelector('.link-url').value = url;
+
   document.querySelector('.curr-loc').innerText = loc.name;
   mapService.panTo(loc.lat, loc.lng);
   onGetWeather({ lat: loc.lat, lng: loc.lng });
+  mapService.addMarker({ lat: loc.lat, lng: loc.lng });
   renderLocTable();
 }
 
@@ -92,4 +106,9 @@ function renderWeather(currWeather) {
         `;
 
   elWeather.innerHTML = strHtmls;
+}
+
+function _encodeUrl() {
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  return Object.fromEntries(urlSearchParams.entries());
 }
