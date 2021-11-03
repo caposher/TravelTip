@@ -3,6 +3,7 @@ import { storageService } from './storage.service.js';
 export const locService = {
   getLoc,
   getLocs,
+  deleteLoc,
 };
 
 const STORAGE_KEY = 'locations';
@@ -42,7 +43,14 @@ function getLoc(loc) {
 }
 
 function getLocs() {
-  return Promise.resolve(locs);
+  return locs;
+}
+
+function deleteLoc(id) {
+  const locIdx = locs.findIndex((loc) => {
+    loc.id === id;
+  });
+  locs.splice(locIdx, 1);
 }
 
 function _IdxInCache(searchLoc) {

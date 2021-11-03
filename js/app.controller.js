@@ -6,9 +6,8 @@ window.onload = onInit;
 window.onAddMarker = onAddMarker;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
-
-// window.onDeleteLocation = onDeleteLocation;
-// window.onChangeLocation = onChangeLocation;
+window.onDeleteLoc = onDeleteLoc;
+window.onChangeLoc = onChangeLoc;
 
 function onInit() {
   mapService
@@ -27,10 +26,9 @@ function onAddMarker() {
 function onGetLocs() {
   const loc = document.querySelector('.input-search').value;
   if (loc) {
-    locService.getLoc(loc).then((locs) => {
-      console.log('Locations:', locs);
-      document.querySelector('.curr-loc').innerText = locs.name;
-      mapService.panTo(locs.lat, locs.lng);
+    locService.getLoc(loc).then((loc) => {
+      console.log('Locations:', loc);
+      renderInfo(loc);
     });
   }
 }
@@ -47,42 +45,43 @@ function onGetUserPos() {
     });
 }
 
-function renderLocTable() {
-  locService
-    .getLocs()
-    .then((locs) => {
-      let HTMLstr = locs.map((loc) => {
-        return `<li>
-              <p>${loc.name}</p>
-              <button onclick="">🗑️</button>
-              <button>📌</button>
-              </li>`;
-      });
-    })
-    .catch((err) => console.log('Failed to render locations table'));
-}
-
-// var coords={
-//     lat:32.0749831,
-//     lng:34.9120554
-// };
-
-// onGetWeather(coords);
-
 function onGetWeather(coords) {
   weatherService.getWeather(coords).then((weather) => renderWeather(weather));
 }
 
+function onDeleteLoc(id) {
+  locService.deleteLoc(id);
+  renderLocTable();
+}
+
+function onChangeLoc(id) {
+  const locs = locService.getLocs();
+  const loc = locs.find((loc) => loc.id === id);
+  console.log('locs', locs);
+  renderInfo(loc);
+}
+
+function renderInfo(loc) {
+  document.querySelector('.curr-loc').innerText = loc.name;
+  mapService.panTo(loc.lat, loc.lng);
+  onGetWeather({ lat: loc.lat, lng: loc.lng });
+  renderLocTable();
+}
+
+function renderLocTable() {
+  const locs = locService.getLocs();
+  let strHTML = locs.map((loc) => {
+    return `<li>
+          <p>${loc.name}</p>
+          <button onclick="onDeleteLoc('${loc.id}')">🗑️</button>
+          <button onclick="onChangeLoc('${loc.id}')">📌</button>
+          </li>`;
+  });
+  document.querySelector('.loc-container').innerHTML = strHTML.join('');
+}
+
 function renderWeather(currWeather) {
-  // var currWeather = {
-  // city: weather.data.name,
-  // temp: weather.data.main.temp,
-  // tempMin:weather.data.main.temp_min,
-  // tempMax: weather.data.main.temp_max,
-  // weatherDesc:weather.data.weather[0].description,
-  // windSpeed: weather.data.wind.speed,
-  // icon: `http://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png`
-  var elWeather = document.querySelector('.weather-container');
+  const elWeather = document.querySelector('.weather-container');
   const strHtmls = `
         <p>City: ${currWeather.city}</p>
         <p class="weather-desc"><img class="weather-icon" src="${currWeather.icon}"/></p>
